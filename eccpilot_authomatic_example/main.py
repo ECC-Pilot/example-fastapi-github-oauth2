@@ -9,11 +9,13 @@ import os
 import uvicorn
 
 
+ALLOWED_ORGA = "ECC-Pilot"
+
 CONFIG = {
     "github": {
         "class_": oauth2.GitHub,
-        "consumer_key": "#####",
-        "consumer_secret": "#####",
+        "consumer_key": "2b196df3bec16f2b39db",
+        "consumer_secret": "c59f1120159fcd7017144918cfd2921ff37d41a5",
         "scope": ["user:email"],
     }
 }
@@ -32,13 +34,13 @@ async def home():
 @app.api_route("/login/{provider}", methods=["GET", "POST"])
 async def login(request: Request, provider: str):
     """
-    There's much repetitive code, but it's just a demonstration.
+    example usage
     """
-    response = JSONResponse(content={})
+    response = JSONResponse(content="")
     result = authomatic.login(FastAPIAdapter(request, response), provider)
 
     if not result:
-        return {"error": "No result!"}
+        return response
     if result.error:
         return {"error": result.error.message}
 
@@ -52,23 +54,38 @@ async def login(request: Request, provider: str):
 
     if user:
         if provider.name == "github":
-            response = JSONResponse(
-                content={"message": "You're now logged in with GitHub."}
-            )
-
-            provider_response = provider.access(
-                user.credentials,
+            userdata_response = provider.access(
                 "https://api.github.com/user",
-                {
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-                    " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36"
-                },
+                headers={"User-Agent": "Authomatic (ECC Pilot 1.0)"},
             )
-
-            if provider_response.status == 200:
-                response.body += "Hello {}".format(provider_response.data.name).encode(
-                    "utf-8"
+            if userdata_response.status != 200:
+                return JSONResponse(
+                    content={"error": "Can not fetch userdata from GitHub."}
                 )
+
+            orga_data_response = provider.access(
+                userdata_response.data["organizations_url"],
+                headers={"User-Agent": "Authomatic (ECC Pilot 1.0)"},
+            )
+            if orga_data_response.status != 200:
+                return JSONResponse(
+                    content={
+                        "error": "Can not fetch your organizations data from GitHub."
+                    }
+                )
+            if not [
+                orga
+                for orga in orga_data_response.data
+                if orga["login"] == ALLOWED_ORGA
+            ]:
+                return JSONResponse(
+                    content={"error": "You're not allowed to use ECC Pilot."}
+                )
+            response = JSONResponse(
+                content={
+                    "message": f"You're now logged in with GitHub as {userdata_response.data['name']}."
+                }
+            )
 
     return response
 
