@@ -1,3 +1,5 @@
 .mxmake/
+*.egg-info/
 *-mxdev.txt
+sources/
 venv/

@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eccpilot_authomatic_example"
+version = "1.0.0.dev0"
+description = "Example to use FastAPI with Authomatic (OAuth2) and add Authorization for this Github organization."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "BSD 3-Clause License" }
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "Do :: not :: publish",
+]
+dependencies = [
+    "uvicorn[standard]",
+    "fastapi",
+    "authomatic",
+]
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-cov", "jsondiff", "freezegun"]
+
+[project.scripts]
+eccpilot_authomatic_example = "eccpilot_authomatic_example.main:main"
+
+[tool.setuptools]
+packages = ["eccpilot_authomatic_example"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "tests",
+]
+
+[tool.isort]
+profile = "black"
+force_alphabetical_sort = true
+force_single_line = true
+lines_after_imports = 2
