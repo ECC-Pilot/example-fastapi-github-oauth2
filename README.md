@@ -2,6 +2,16 @@
 
 Example to use FastAPI with Authomatic (OAuth2) and add Authorization for this Github organization.
 
+## install
+
+Precondition: Python 3.11
+
+Then run Make - it creates a `venv`, no worries:
+
+```bash
+make install
+```
+
 ## start server
 
 ```bash
