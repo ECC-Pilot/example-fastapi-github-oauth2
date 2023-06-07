@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
 [project]
 name = "eccpilot_authomatic_example"
@@ -23,7 +23,7 @@ dependencies = [
 test = ["pytest", "pytest-cov", "jsondiff", "freezegun"]
 
 [project.scripts]
-eccpilot_authomatic_example = "eccpilot_authomatic_example.main:main"
+eccpilot_authomatic_example = "eccpilot_authomatic_example.main:start"
 
 [tool.setuptools]
 packages = ["eccpilot_authomatic_example"]

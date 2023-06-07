@@ -1,5 +1,7 @@
 .mxmake/
+__pycache__
 *.egg-info/
 *-mxdev.txt
+build/
 sources/
 venv/

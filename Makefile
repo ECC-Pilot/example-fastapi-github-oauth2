@@ -76,13 +76,13 @@ MXMAKE?=mxmake
 
 # Source folder to scan for Python files to run isort on.
 # Default: src
-ISORT_SRC?=src
+ISORT_SRC?=eccpilot_authomatic_example
 
 ## qa.black
 
 # Source folder to scan for Python files to run black on.
 # Default: src
-BLACK_SRC?=src
+BLACK_SRC?=eccpilot_authomatic_example
 
 ## core.mxfiles
 
@@ -117,7 +117,7 @@ COVERAGE_COMMAND?=.mxmake/files/run-coverage.sh
 
 # Source folder for code analysis.
 # Default: src
-MYPY_SRC?=src
+MYPY_SRC?=eccpilot_authomatic_example
 
 # Mypy Python requirements to be installed (via pip).
 # Default: types-setuptools
